@@ -1,0 +1,405 @@
+###############################################
+# Global settings
+# Configuración Global
+
+# Settings in this section are applied anywhere.
+# Las configuraciones de esta sección aplican en todos lados
+
+###############################################
+# Global settings -> General
+# Configuración global -> General
+
+# Verbosity of the program.
+# Verbosidad del programa.
+logLevel: info
+# Destinations of log messages: stdout (console).
+# Destinos de los mensajes loggeados: stdout (consola).
+logDestinations: [stdout]
+logFile: mediamtx.log
+sysLogPrefix: mediamtx
+
+# Timeout of read operations.
+# Tiempo límite de operaciones de lectura.
+readTimeout: 10s
+# Timeout of write operations.
+# Tiempo límite de operaciones de escritura.
+writeTimeout: 10s
+# Size of the queue of outgoing packets.
+# A higher value allows to increase throughput, a lower value allows to save RAM.
+# Tamaño de la cola de paquetes de salida.
+# Un valor más alto permite incrementar el flujo, un valor menor disponibiliza más RAM.
+writeQueueSize: 512
+# Maximum size of outgoing UDP packets.
+# This can be decreased to avoid fragmentation on networks with a low UDP MTU.
+# Tamaño máximo de los paquetes de salida por UDP.
+# Se puede decrementar para evadir la fragmentación de redes con una baja tasa de transferencia para UDP MTU.
+udpMaxPayloadSize: 1472
+
+# Don't run command on connect / disconnect
+# No ejecutar commandos cuando se realiza una conexión / desconexión
+runOnConnect:
+runOnConnectRestart: no
+runOnDisconnect:
+
+###############################################
+# Global settings -> Authentication
+# Configuración global -> Autenticación
+
+# Authentication method, internal: credentials are stored in the configuration file
+# Método de autentiación, interno: las credenciales están guardadas en el archivo de configuración
+authMethod: internal
+
+# list of users.
+# lista de usuaries.
+authInternalUsers:
+  # Default unprivileged user.
+  # Usuarie por defecto (sin privilegios).
+  - user: any
+    pass:
+    # IPs or networks allowed to use this user. An empty list means any IP.
+    # IPs o redes que están permitidas de usar este usuarie. Un lista vacía significa cualquier IP.
+    ips: []
+    # List of permissions: read and playback.
+    # Lista de permisos: lectura y reproducción.
+    permissions:
+      - action: read
+        path:
+      - action: playback
+        path:
+
+    # Default administrator.
+    # This allows to use API, metrics and PPROF without authentication,
+    # if the IP is localhost.
+    # Administradore por defecto.
+    # Permite uso de la API, metricas y PPROF sin necesidad de autenticación,
+    # si la IP es local (localhost).
+  - user: any
+    pass:
+    ips: ["127.0.0.1", "::1"]
+    permissions:
+      - action: api
+      - action: metrics
+      - action: pprof
+
+# HTTP-based authentication: disabled.
+# Autenticación basada en HTTP: deshabilitada.
+authHTTPAddress:
+authHTTPExclude:
+  - action: api
+  - action: metrics
+  - action: pprof
+
+# JWT-based authentication: disabled.
+# Autenticación basada en JWT: deshabilitada.
+authJWTJWKS:
+authJWTJWKSFingerprint:
+authJWTClaimKey: mediamtx_permissions
+authJWTExclude: []
+authJWTInHTTPQuery: true
+
+###############################################
+# Global settings -> Control API
+# Configuración global -> API de control
+
+# Control server via Control API: disabled.
+# Controlar el servidor a través de la API de control: deshabilitado.
+api: no
+apiAddress: :9997
+apiEncryption: no
+apiServerKey: server.key
+apiServerCert: server.crt
+apiAllowOrigin: "*"
+apiTrustedProxies: []
+
+###############################################
+# Global settings -> Metrics
+# Configuración global -> Métricas
+
+# Prometheus-compatible metrics: disabled.
+# Métricas compatibles con Prometheus: deshabilitado.
+metrics: no
+metricsAddress: :9998
+metricsEncryption: no
+metricsServerKey: server.key
+metricsServerCert: server.crt
+metricsAllowOrigin: "*"
+metricsTrustedProxies: []
+
+###############################################
+# Global settings -> PPROF
+# Configuración global -> PPROF
+
+# Enable pprof-compatible endpoint to monitor performances: disabled.
+# Habilitar endpoint compatible con pprof para monitorear el rendimiento: deshabilitado.
+pprof: no
+pprofAddress: :9999
+pprofEncryption: no
+pprofServerKey: server.key
+pprofServerCert: server.crt
+pprofAllowOrigin: "*"
+pprofTrustedProxies: []
+
+###############################################
+# Global settings -> Playback server
+# Configuración global -> Servidor de reproducción
+
+# Dowload recordings from the playback server: disabled.
+# Descargar reproducciones del servidor de reproducción: deshabilitado.
+playback: no
+playbackAddress: :9996
+playbackEncryption: no
+playbackServerKey: server.key
+playbackServerCert: server.crt
+playbackAllowOrigin: "*"
+playbackTrustedProxies: []
+
+###############################################
+# Global settings -> RTSP server (Real Time Server Protocol)
+# Configuración global -> Servidor RTSP (Protocolo de servidor de tiempo real)
+
+# Enable publishing and reading streams with the RTSP protocol.
+# Permitir publicación y lectura de streams con el protocolo RTSP.
+rtsp: yes
+# List of enabled RTSP transport protocols.
+# Lista de protocolos habilitados para el trasporte por el protocolo RTSP.
+rtspTransports: [udp, multicast, tcp]
+rtspEncryption: "no"
+# Address of the TCP/RTSP listener. This is needed only when encryption is "no" or "optional".
+# Dirección de escucha de TCP/RTSP. Necesario cuando la opción de encripción es "no" o "optional" (opcional).
+rtspAddress: :8554
+# Address of the TCP/RTSP listener. This is needed only when encryption is "strict" or "optional".
+# Dirección de escucha de TCP/RTSP. Necesario cuando la opción de encripción es "strict" (estricta) o "optional" (opcional).
+rtspsAddress: :8322
+# Address of the UDP/RTP listener. This is needed only when "udp" is in rtspTransports.
+# Dirección de escucha de UDP/RTP. Necesario cuando "udp" está presente en rtspTransports .
+rtpAddress: :8000
+# Address of the UDP/RTCP listener. This is needed only when "udp" is in rtspTransports.
+# Dirección de escucha de UDP/RTCP. Necesario cuando "udp" está presente en rtspTransports .
+rtcpAddress: :8001
+# IP range of all UDP-multicast listeners. This is needed only when "multicast" is in rtspTransports.
+# Rango de IP de todas las direcciones de escucha del multicast de UDP. Necesario cuando "multicast" está presente en rtspTransports.
+multicastIPRange: 224.1.0.0/16
+# Port of all UDP-multicast/RTP listeners. This is needed only when "multicast" is in rtspTransports.
+# Puerto de todas las direcciones de escucha de multicast de UDP/RTP. Necesario cuando "multicast" está presente en rtspTransports.
+multicastRTPPort: 8002
+# Port of all UDP-multicast/RTCP listeners. This is needed only when "multicast" is in rtspTransports.
+# Puerto de todas las direcciones de escucha de multicast de UDP/RTCP. Necesario cuando "multicast" está presente en rtspTransports.
+multicastRTCPPort: 8003
+# Secure protocols (ignored due to no encryption)
+# Protocolos seguros (ignorados por deshabilitar la encripción)
+srtpAddress: :8004
+srtcpAddress: :8005
+multicastSRTPPort: 8006
+multicastSRTCPPort: 8007
+rtspServerKey: server.key
+rtspServerCert: server.crt
+rtspAuthMethods: [basic]
+rtspUDPReadBufferSize: 0
+
+###############################################
+# Global settings -> RTMP server
+# Configruación global -> servidor RTMP
+
+# Enable publishing and reading streams with the RTMP protocol.
+# Permitir la publicación y lectura de streams con el protocolo RTMP.
+rtmp: yes
+# Address of the RTMP listener. This is needed only when encryption is "no" or "optional".
+# Dirección de escucha de RTMP. Necesario cuando la encripción es "no" o "optional" (opcional).
+rtmpAddress: :1935
+# Don't encrypt connections with TLS (RTMPS).
+# No encripta las conexiones con TLS (RTMPS).
+rtmpEncryption: "no"
+# Address of the RTMPS listener. This is needed only when encryption is "strict" or "optional".
+# Dirección de escucha de RTMPS. Necesario cuando la encripción es "strict" (estricto) o "optional" (opcional).
+rtmpsAddress: :1936
+rtmpServerKey: server.key
+rtmpServerCert: server.crt
+
+###############################################
+# Global settings -> HLS server
+# Configruación global -> servidor HLS
+
+hls: no
+hlsAddress: :8888
+hlsEncryption: no
+hlsServerKey: server.key
+hlsServerCert: server.crt
+hlsAllowOrigin: "*"
+hlsTrustedProxies: []
+hlsAlwaysRemux: no
+hlsVariant: lowLatency
+hlsSegmentCount: 7
+hlsSegmentDuration: 1s
+hlsPartDuration: 200ms
+hlsSegmentMaxSize: 50M
+hlsDirectory: ""
+hlsMuxerCloseAfter: 60s
+
+###############################################
+# Global settings -> WebRTC server
+# Configuración global -> servidor WebRTC
+
+# Enable publishing and reading streams with the WebRTC protocol.
+# Permitir publicar y leer streams con el protocolo WebRTC.
+webrtc: yes
+# Address of the WebRTC HTTP listener.
+# Dirección de escucha de WebRTC HTTP.
+webrtcAddress: :8889
+
+# Secure WebRTC
+# WebRTC seguro
+webrtcEncryption: no
+webrtcServerKey: server.key
+webrtcServerCert: server.crt
+webrtcAllowOrigin: "*"
+webrtcTrustedProxies: []
+
+# WebRTC via UDP for forwarding to other servers
+# WebRTC via UDP para reenviar a otros servidores
+webrtcLocalUDPAddress: :8189
+webrtcLocalTCPAddress: ""
+webrtcIPsFromInterfaces: yes
+webrtcIPsFromInterfacesList: []
+webrtcAdditionalHosts: []
+webrtcICEServers2: []
+webrtcHandshakeTimeout: 10s
+webrtcTrackGatherTimeout: 2s
+webrtcSTUNGatherTimeout: 5s
+
+###############################################
+# Global settings -> SRT server
+# Configuración global -> servidor SRT
+
+srt: no
+srtAddress: :8890
+
+###############################################
+# Default path settings
+# Configuración de path por defecto
+
+pathDefaults:
+  source: publisher
+  sourceFingerprint:
+  sourceOnDemand: no
+  sourceOnDemandStartTimeout: 10s
+  sourceOnDemandCloseAfter: 10s
+  maxReaders: 0
+  srtReadPassphrase:
+  fallback:
+  useAbsoluteTimestamp: false
+
+  # Record streams to disk.
+  # Grabar streams al disco.
+  record: no
+  recordPath: ./recordings/%path/%Y-%m-%d_%H-%M-%S-%f
+  # Format of recorded segments.
+  # Formato de los segmentos grabados.
+  recordFormat: fmp4
+  recordPartDuration: 1s
+  recordMaxPartSize: 50M
+  recordSegmentDuration: 1h
+  recordDeleteAfter: 1d
+
+  overridePublisher: no
+  srtPublishPassphrase:
+
+  # RTSP
+  rtspTransport: automatic
+  rtspAnyPort: no
+  rtspRangeType:
+  rtspRangeStart:
+  rtspUDPReadBufferSize: 0
+
+  # MPEG-TS
+  mpegtsUDPReadBufferSize: 0
+
+  # RTP (SDP)
+  rtpSDP:
+  rtpUDPReadBufferSize: 0
+
+  # Redirect
+  # Redirección
+  sourceRedirect:
+
+  # Raspberry Camera
+  rpiCameraCamID: 0
+  rpiCameraSecondary: false
+  rpiCameraWidth: 1920
+  rpiCameraHeight: 1080
+  rpiCameraHFlip: false
+  rpiCameraVFlip: false
+  rpiCameraBrightness: 0
+  rpiCameraContrast: 1
+  rpiCameraSaturation: 1
+  rpiCameraSharpness: 1
+  rpiCameraExposure: normal
+  rpiCameraAWB: auto
+  rpiCameraAWBGains: [0, 0]
+  rpiCameraDenoise: "off"
+  rpiCameraShutter: 0
+  rpiCameraMetering: centre
+  rpiCameraGain: 0
+  rpiCameraEV: 0
+  rpiCameraROI:
+  rpiCameraHDR: false
+  rpiCameraTuningFile:
+  rpiCameraMode:
+  rpiCameraFPS: 30
+  rpiCameraAfMode: continuous
+  rpiCameraAfRange: normal
+  rpiCameraAfSpeed: normal
+  rpiCameraLensPosition: 0.0
+  rpiCameraAfWindow:
+  rpiCameraFlickerPeriod: 0
+  rpiCameraTextOverlayEnable: false
+  rpiCameraTextOverlay: "%Y-%m-%d %H:%M:%S - MediaMTX"
+  rpiCameraCodec: auto
+  rpiCameraIDRPeriod: 60
+  rpiCameraBitrate: 5000000
+  rpiCameraHardwareH264Profile: main
+  rpiCameraHardwareH264Level: "4.1"
+  rpiCameraSoftwareH264Profile: baseline
+  rpiCameraSoftwareH264Level: "4.1"
+  rpiCameraMJPEGQuality: 60
+
+  # Hooks
+  # "Ganchos"
+  runOnInit:
+  runOnInitRestart: no
+  runOnDemand:
+  runOnDemandRestart: no
+  runOnDemandStartTimeout: 10s
+  runOnDemandCloseAfter: 10s
+  runOnUnDemand:
+  runOnReady:
+  runOnReadyRestart: no
+  runOnNotReady:
+  runOnRead:
+  runOnReadRestart: no
+  runOnUnread:
+  runOnRecordSegmentCreate:
+  runOnRecordSegmentComplete:
+# Path settings
+# Configuración de path
+
+paths:
+  # /stream
+  stream:
+    # Source address
+    # Dirección fuente
+    source: udp+rtp://127.0.0.1:28346
+    # SDP (Session description protocol)
+    # SDP (Protocolo de descripción de sesión)
+    rtpSDP: |
+      v=0
+      o=- 0 0 IN IP4 127.0.0.1
+      s=No Name
+      c=IN IP4 127.0.0.1
+      t=0 0
+      a=tool:libavformat 60.16.100
+      m=audio 28346 RTP/AVP 97
+      b=AS:32
+      a=rtpmap:97 opus/48000/2
+      a=fmtp:97 sprop-stereo=1
+
+  all_others:
