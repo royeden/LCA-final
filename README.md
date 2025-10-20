@@ -1,9 +1,17 @@
-#
+# LCA FINAL (Laboratorio de Creación Algorítmica / Lab of Algorithmic Creations)
 
 [Español](#es)
 [English](#en)
 
+
+
 ## ES
+
+### Idea
+
+[Ejemplo del recorrido del espacio con P5](https://editor.p5js.org/royeden/sketches/A13drz3pX)
+
+### Streaming
 
 Este proyecto está diseñado para streamear audio a través de una red local en sistemas Linux con el protocolo RTP (protocolo de tiempo real) por UDP y el protocolo WebRTC (Protocolo de conexión en tiempo real a través de la web) por TCP / Sockets.
 A futuro se incluirá una guía de cómo utilizarse en Windows y MacOS.
@@ -70,6 +78,12 @@ Aclaración: Va a ser necesario tener dos consolas de comando abiertas, ya sea c
     - `http://<IP_DEL_SERVIDOR>:8889/stream` en otro dispositivo (puede obtener la IP de la computadora en su configuración de la red Wi-Fi). Si por ejemplo su IP fuese `192.168.0.2`, sería `http://192.168.0.2:8889/stream`.
 
 ## EN
+
+### Idea
+
+[P5 Example of a walk through the space](https://editor.p5js.org/royeden/sketches/A13drz3pX)
+
+### Streaming
 
 This project is designed to stream audio through a local network on Linux with the RTP (Real Time Protocol) protocol via UDP and the WebRTC (Web Real Time Connection) protocol via TCP / Sockets.
 In the future it will include a guide of how to use it on Windows and MacOS.
