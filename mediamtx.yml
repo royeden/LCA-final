@@ -398,7 +398,7 @@ paths:
       t=0 0
       a=tool:libavformat 60.16.100
       m=audio 28346 RTP/AVP 97
-      b=AS:32
+      b=AS:64
       a=rtpmap:97 opus/48000/2
       a=fmtp:97 sprop-stereo=1
 

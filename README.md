@@ -29,11 +29,11 @@ Aclaración: Va a ser necesario tener dos consolas de comando abiertas, ya sea c
 4. Edite las variables y ejecute el archivo `ffmpeg-stream.sh` (recuerde darle permisos de ejecución) o ejecute el comando
     ```bash
     ffmpeg -f pulse -i $INPUT \
-      -ac 2 -ar 48000 -application lowdelay -frame_duration 5 \
+      -ac 2 -ar 48000 -application lowdelay -frame_duration 10 \
       -flags +global_header \
-      -fflags nobuffer -probesize 32 -analyzeduration 0 \
+      -fflags nobuffer -probesize 64 -analyzeduration 0 \
       -vn \
-      -c:a libopus -b:a 32k \
+      -c:a libopus -b:a 64k \
       -content_type audio/ogg \
       -f rtp rtp://127.0.0.1:$PUERTO/stream
     ```
@@ -57,7 +57,7 @@ Aclaración: Va a ser necesario tener dos consolas de comando abiertas, ya sea c
         t=0 0
         a=tool:libavformat 60.16.100
         m=audio $PUERTO RTP/AVP 97
-        b=AS:32
+        b=AS:64
         a=rtpmap:97 opus/48000/2
         a=fmtp:97 sprop-stereo=1
     ```
@@ -95,11 +95,11 @@ Note: It will be necessary to have two command lines open, either on múltiple t
 4. Edit the variables and execute the script `ffmpeg-stream.sh` (remember to give it execution permissions) o execute the command
     ```bash
     ffmpeg -f pulse -i $INPUT \
-      -ac 2 -ar 48000 -application lowdelay -frame_duration 5 \
+      -ac 2 -ar 48000 -application lowdelay -frame_duration 10 \
       -flags +global_header \
-      -fflags nobuffer -probesize 32 -analyzeduration 0 \
+      -fflags nobuffer -probesize 64 -analyzeduration 0 \
       -vn \
-      -c:a libopus -b:a 32k \
+      -c:a libopus -b:a 64k \
       -content_type audio/ogg \
       -f rtp rtp://127.0.0.1:$PORT/stream
     ```
@@ -123,7 +123,7 @@ Note: It will be necessary to have two command lines open, either on múltiple t
         t=0 0
         a=tool:libavformat 60.16.100
         m=audio $PORT RTP/AVP 97
-        b=AS:32
+        b=AS:64
         a=rtpmap:97 opus/48000/2
         a=fmtp:97 sprop-stereo=1
     ```
