@@ -7,7 +7,7 @@
 const BG = 28;
 const BGA = 2 ** 3;
 const A = 255;
-const SIZE = 400;
+const SIZE = Math.min(window.innerHeight, window.innerWidth);
 const CELLS = 2;
 const CELLS_COUNT = CELLS ** 2;
 const CELL_SIZE = SIZE / CELLS;
@@ -147,7 +147,8 @@ let channels;
 
 async function setup() {
   await WebMidi.enable();
-  createCanvas(400, 400);
+  const canvas = createCanvas(SIZE, SIZE);
+  canvas.position((windowWidth - width) / 2, (windowHeight - height) / 2);
   x = width / 2;
   y = height / 2;
   background(BG);
@@ -265,6 +266,12 @@ function keyTyped() {
       }
       userInterface = !userInterface;
       console.log("UI: " + userInterface);
+      break;
+    }
+    case "s": {
+      if (!isLooping()) {
+        draw();
+      }
       break;
     }
     case "-": {
